@@ -106,13 +106,3 @@ function write_profile_d_script() {
 
   echo $export_line >> $build_path/.profile.d/elixir_buildpack_paths.sh
 }
-
-function write_export() {
-  output_section "Writing export for multi-buildpack support"
-
-  local export_line="export PATH=$(platform_tools_path):$(erlang_path)/bin:$(elixir_path)/bin:\$PATH
-                     export LC_CTYPE=en_US.utf8
-                     export MIX_ENV=${MIX_ENV}"
-
-  echo $export_line > $build_pack_path/export
-}

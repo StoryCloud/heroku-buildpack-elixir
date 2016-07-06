@@ -15,16 +15,19 @@ build_path=$(cd $1 && pwd)
 cache_path=$(cd $2 && pwd)
 env_path=$(cd $3 && pwd)
 
+heroku_path=$build_path/.heroku
+mkdir -p $heroku_path/node
 
 source ${build_pack_path}/lib/path_funcs.sh
 source ${build_pack_path}/lib/misc_funcs.sh
 source ${build_pack_path}/lib/erlang_funcs.sh
 source ${build_pack_path}/lib/elixir_funcs.sh
 source ${build_pack_path}/lib/app_funcs.sh
+source ${build_pack_path}/lib/phoenix_funcs.sh
 
 mkdir $(platform_tools_path)
 
-load_config
+load_elixir_config
 export_config_vars
 export_mix_env
 
@@ -52,3 +55,26 @@ write_profile_d_script
 write_export
 
 post_compile_hook
+
+old_npm=$(file_contents "$cache_path/npm-version")
+old_node=$(file_contents "$cache_path/node-version")
+
+head "Loading Phoenix configuration and environment"
+load_phoenix_config
+export_config_vars
+export_mix_env
+
+cached_node=$cache_path/node-v$node_version-linux-x64.tar.gz
+
+head "Installing binaries"
+download_node
+install_node
+install_npm
+
+head "Building dependencies"
+install_and_cache_npm_deps
+
+compile_assets
+
+head "Finalizing build"
+write_profile
