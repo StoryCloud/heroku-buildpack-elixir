@@ -108,10 +108,10 @@ file_contents() {
 load_phoenix_config() {
   output_line "Loading Phoenix config..."
 
-  local custom_config_file="${build_dir}/phoenix_static_buildpack.config"
+  local custom_config_file="${build_path}/phoenix_static_buildpack.config"
 
   # Source for default versions file from buildpack first
-  source "${build_pack_dir}/phoenix_static_buildpack.config"
+  source "${build_pack_path}/phoenix_static_buildpack.config"
 
   if [ -f $custom_config_file ]; then
     source $custom_config_file
@@ -120,7 +120,7 @@ load_phoenix_config() {
     output_line "Using default config from Phoenix static buildpack"
   fi
   
-  phoenix_dir=$build_dir/$phoenix_relative_path
+  phoenix_path=$build_path/$phoenix_relative_path
 
   output_line "Will use the following versions:"
   output_line "* Node ${node_version}"
