@@ -85,24 +85,16 @@ function clean_cache() {
     rm -rf $cache_path/*
   fi
 }
+
 #
 # From heroku-buildpack-phoenix-static ...
 #
-info() {
-  echo "       $*"
-}
-
 indent() {
   c='s/^/       /'
   case $(uname) in
     Darwin) sed -l "$c";; # mac/bsd sed: -l buffers on line boundaries
     *)      sed -u "$c";; # unix/gnu sed: -u unbuffered (arbitrary) chunks of data
   esac
-}
-
-head() {
-  echo ""
-  echo "-----> $*"
 }
 
 file_contents() {
@@ -114,24 +106,24 @@ file_contents() {
 }
 
 load_phoenix_config() {
-  info "Loading Phoenix config..."
+  output_line "Loading Phoenix config..."
 
   local custom_config_file="${build_dir}/phoenix_static_buildpack.config"
 
   # Source for default versions file from buildpack first
-  source "${build_pack_path}/phoenix_static_buildpack.config"
+  source "${build_pack_dir}/phoenix_static_buildpack.config"
 
   if [ -f $custom_config_file ]; then
     source $custom_config_file
   else
-    info "WARNING: phoenix_static_buildpack.config wasn't found in the app"
-    info "Using default config from Phoenix static buildpack"
+    output_line "WARNING: phoenix_static_buildpack.config wasn't found in the app"
+    output_line "Using default config from Phoenix static buildpack"
   fi
   
   phoenix_dir=$build_dir/$phoenix_relative_path
 
-  info "Will use the following versions:"
-  info "* Node ${node_version}"
-  info "Will export the following config vars:"
-  info "* Config vars ${config_vars_to_export[*]}"
+  output_line "Will use the following versions:"
+  output_line "* Node ${node_version}"
+  output_line "Will export the following config vars:"
+  output_line "* Config vars ${config_vars_to_export[*]}"
 }

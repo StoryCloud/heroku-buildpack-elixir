@@ -59,22 +59,22 @@ post_compile_hook
 old_npm=$(file_contents "$cache_path/npm-version")
 old_node=$(file_contents "$cache_path/node-version")
 
-head "Loading Phoenix configuration and environment"
+output_section "Loading Phoenix configuration and environment"
 load_phoenix_config
 export_config_vars
 export_mix_env
 
 cached_node=$cache_path/node-v$node_version-linux-x64.tar.gz
 
-head "Installing binaries"
+output_section "Installing binaries"
 download_node
 install_node
 install_npm
 
-head "Building dependencies"
+output_section "Building dependencies"
 install_and_cache_npm_deps
 
 compile_assets
 
-head "Finalizing build"
+output_section "Finalizing build"
 write_profile
