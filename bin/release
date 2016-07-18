@@ -6,6 +6,5 @@ addons:
   []
 default_process_types:
   web: mix phoenix.server
-  mig: mix ecto.migrate
-  rol: mix ecto.rollback
+  migrate: mix ecto.migrate
 EOF
