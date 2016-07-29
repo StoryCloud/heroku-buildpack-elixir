@@ -5,6 +5,7 @@ cat <<EOF
 addons:
   []
 default_process_types:
-  web: mix phoenix.server
   migrate: mix ecto.migrate
+  seed: mix run priv/repo/seeds.exs
+  web: mix phoenix.server
 EOF
